@@ -1,13 +1,42 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>My Page Title</title>
-  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <title>My Page Title</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <style>
+        body {
+            background-color: powderblue;
+            text-align: center;
+        }
+
+        h1 {
+            color: blue;
+            text-align: center;
+        }
+
+        p {
+            color: red;
+            text-align: center;
+        }
+    </style>
 </head>
+
 <body>
 
-<h1>This is a Heading</h1>
-<p>This is a paragraph.</p>
+    <h1>This is a Heading</h1>
+    <p>This is a paragraph.</p>
+
+    <form action="/action_page.php">
+        <label for="fname">First name:</label><br>
+        <input type="text" id="fname" name="fname" value="John"><br>
+        <label for="lname">Last name:</label><br>
+        <input type="text" id="lname" name="lname" value="Doe"><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <p>If you click the "Submit" button, the form-data will be sent to a page called "/action_page.php".</p>
 
 </body>
+
 </html>
