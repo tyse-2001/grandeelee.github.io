@@ -17,7 +17,11 @@ def greet(user_input):
 
 @app.route('/cards')
 def cards():
-    return render_template('cards.html')
+    with open('data.csv', 'r') as f:
+        data = f.read().split('\n')
+    data = [line.split(',') for line in data]
+
+    return render_template('cards.html', data=data)
 
 @app.route("/login", methods=['POST', 'GET'])
 def form():

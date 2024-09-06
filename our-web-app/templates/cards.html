@@ -5,30 +5,22 @@
 {% endblock %}
 
 {% block content %}
-<div class="row mt-5">
+<div class="row mt-5 mb-5">
     <div class="col-0 col-md-2 col-lg-3"></div>
     <div class="col-12 col-md-8 col-lg-6">
         <div class="row">
+            {% for line in data %}
             <div class="col-12 col-md-12 col-lg-6">
                 <div class="card mt-3">
                     <div class="card-body">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">Some example text. Some example text.</p>
+                        <h4 class="card-title">{{ line[0] }}</h4>
+                        <p class="card-text">{{ line[1] }}</p>
                         <a href="#" class="card-link">Card link</a>
                         <a href="#" class="card-link">Another link</a>
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-12 col-lg-6">
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <h4 class="card-title">Card title</h4>
-                        <p class="card-text">Some example text. Some example text.</p>
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
-                    </div>
-                </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
     <div class="col-0 col-md-2 col-lg-3"></div>
