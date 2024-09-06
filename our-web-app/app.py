@@ -4,7 +4,7 @@ app = Flask(__name__)  #__name__ = __main__
 
 @app.route('/')
 def home():
-    return render_template('base.html', my_title="whatever")
+    return render_template('login.html', my_title="whatever")
 
 @app.route("/<user_input>")
 def greet(user_input):
