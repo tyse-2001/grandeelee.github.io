@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title%}
+{{ title|default("my tables")|upper }}
+{% endblock %}
+
+{% block content %}
+<div class="row mt-3">
+    <div class="col-0 col-md-2 col-lg-3"></div>
+    <div class="col-12 col-md-8 col-lg-6">
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ pswd }}</td>
+                    <td>i dont know</td>
+                    <td>{{ email }}</td>
+                </tr>
+                <tr>
+                    <td>Mary</td>
+                    <td>Moe</td>
+                    <td>mary@example.com</td>
+                </tr>
+                <tr>
+                    <td>July</td>
+                    <td>Dooley</td>
+                    <td>july@example.com</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-0 col-md-2 col-lg-3"></div>
+
+</div>
+{% endblock %}
