@@ -1,9 +1,7 @@
-from flask import Flask, request, redirect, url_for, render_template, flash
+from app import app
+from flask import request, redirect, url_for, render_template, flash
 import csv
-
-app = Flask(__name__)  #__name__ = __main__
-
-app.secret_key = "2g3hjkrfhjk34hj"  # necessary for the session cookie
+from model import User
 
 all_packages = []
 with open("./staycation.csv", 'r') as f:
@@ -48,16 +46,14 @@ def book(hotel_name):
     # get check in/out date
     return render_template("login.html")
 
-@app.route("/login", methods=['POST', 'GET'])
+@app.route("/registration", methods=['POST', 'GET'])
 def form():
     if request.method == 'POST':
         email = request.form.get('email')
         pswd = request.form.get('pswd')
-        if email != "admin@abc.com" or pswd != "12345":
-            flash("invalid credentials. please try again")
-            return render_template('login.html')
-        else:
-            flash("you were successfully loggin in")
-            return redirect(url_for('cards'))
+        name = request.form.get('name')
+        User.createUser(email, name, pswd)
+        return render_template('registration.html')
+
     if request.method == 'GET':
-        return render_template('login.html')
+        return render_template('registration.html')
