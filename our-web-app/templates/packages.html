@@ -9,14 +9,15 @@
     <div class="col-0 col-md-2 col-lg-3"></div>
     <div class="col-12 col-md-8 col-lg-6">
         <div class="row">
-            {% for line in data %}
-            <div class="col-12 col-md-12 col-lg-6">
+            {% for package in data %}
+            <div class="col-6 col-md-6 col-lg-4">
                 <div class="card mt-3">
+                    <img class="card-img-top" src="{{ package.image_url }}">
                     <div class="card-body">
-                        <h4 class="card-title">{{ line[0] }}</h4>
-                        <p class="card-text">{{ line[1] }}</p>
-                        <a href="#" class="card-link">Card link</a>
-                        <a href="#" class="card-link">Another link</a>
+                        <h4 class="card-title">{{ package.hotel_name }}</h4>
+                        <p class="card-text">{{ package.description }}</p>
+                        <a href="/book/{{package.hotel_name}}" class="card-link">book</a>
+                        <a href="/viewPackageDetail/{{package.hotel_name}}" class="card-link">detail</a>
                     </div>
                 </div>
             </div>
