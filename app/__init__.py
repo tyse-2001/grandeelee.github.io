@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_mongoengine import MongoEngine
+from flask_login import LoginManager
 
 
 def create_app():
@@ -15,6 +16,8 @@ def create_app():
     ]
 
     my_db = MongoEngine(app)
-    return app, my_db
+    login_manager = LoginManager(app)
+    login_manager.login_view = 'login'
+    return app, my_db, login_manager
 
-app, my_db = create_app()
+app, my_db, login_manager = create_app()

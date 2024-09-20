@@ -1,4 +1,5 @@
-from app import my_db as db
+from werkzeug.security import generate_password_hash, check_password_hash
+from app import my_db as db, login_manager
 from flask_login import UserMixin
 
 class User(UserMixin, db.Document):
@@ -23,11 +24,15 @@ class User(UserMixin, db.Document):
             user = User(
                 email=email,
                 name=name,
-                password=password
+                password=generate_password_hash(password)
             )
             user.save()
         return user
+
+    @staticmethod
+    def checkPassword(hash, password):
+        return check_password_hash(hash, password)
     
-# @login_manager.user_loader
-# def load_user(user_id):
-#     return User.getUserById(user_id)
+@login_manager.user_loader
+def load_user(user_id):
+    return User.getUserById(user_id)
