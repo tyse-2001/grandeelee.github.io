@@ -14,6 +14,8 @@ def create_app():
             'db': 'my_db'
         }
     ]
+    app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024
+    app.static_folder = "assets"
 
     my_db = MongoEngine(app)
     login_manager = LoginManager(app)

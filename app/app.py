@@ -2,6 +2,8 @@ from app import app
 from flask import request, redirect, url_for, render_template, flash
 from flask_login import login_user, logout_user, current_user, login_required
 import csv
+
+# ====== models =======
 from model import User
 from forms import LoginForm
 
@@ -38,6 +40,7 @@ def login():
         return redirect(url_for('packages'))
     form = LoginForm()
     if form.validate_on_submit():
+        # if request.method == 'POST' and form.validate():
         # email = request.form.get('email')
         # password = request.form.get('pswd')
         # remember = request.form.get('remember')
@@ -89,3 +92,11 @@ def registration():
 
     if request.method == 'GET':
         return render_template('registration.html')
+    
+@app.route("/upload", methods=['POST', 'GET'])
+def upload():
+    if request.method == 'POST':
+        f = request.files['file']
+        f.save(f.filename)
+        return "file uploaded"
+    return render_template("upload.html")
