@@ -62,6 +62,36 @@ class Package(db.Document):
     def createPackage(hotel_name, duration, unit_cost, image_url, description):
         return Package(hotel_name=hotel_name, duration=duration, unit_cost=unit_cost, image_url=image_url, description=description).save()
 
+class Promotion(db.Document):
+    meta = {'collection': "promotion"}
+    check_in = db.DateTimeField()
+    check_out = db.DateTimeField()
+    capacity = db.IntField()
+
+    @staticmethod
+    def createPromotion(check_in, check_out, capacity):
+        return Promotion(check_in=check_in, check_out=check_out, capacity=capacity).save()
+    
+
+class PromotionPackage(db.Document):
+    meta = {"collection": "promotionpackage"}
+    package = db.ReferenceField(Package)
+    promotion = db.ListField(db.ReferenceField(Promotion))
+    discount = db.FloatField()
+    hotel_name = db.StringField()
+
+    @staticmethod
+    def getAllPackages():
+        return PromotionPackage.objects()
+    
+    @staticmethod
+    def getPackage(hotel_name):
+        return PromotionPackage.objects(hotel_name=hotel_name).first()
+    
+    @staticmethod
+    def createPackages(package, promotion, discount, hotel_name):
+        return PromotionPackage(package=package, promotion=promotion, discount=discount, hotel_name=hotel_name).save()
+
 
 @login_manager.user_loader
 def load_user(user_id):
