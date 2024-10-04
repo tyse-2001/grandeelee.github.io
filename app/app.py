@@ -69,7 +69,14 @@ def logout():
 @app.route('/packages')
 @login_required
 def packages():
-    return render_template('packages.html', data=all_packages)
+    packages = Package.getAllPackages()
+    if not packages:
+        for package in all_packages:
+            Package.createPackage(package["hotel_name"].strip('"'), int(package["duration"]), float(package["packageCost"]), package['image_url'], package['description'].strip('"'))
+        packages = Package.getAllPackages()
+
+    packages = Package.getPackageFromPrice(0, 200)
+    return render_template('packages.html', data=packages)
 
 @app.route("/viewPackageDetail/<hotel_name>")
 def viewHotel(hotel_name):

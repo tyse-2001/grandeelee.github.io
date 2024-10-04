@@ -1,6 +1,7 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import my_db as db, login_manager
 from flask_login import UserMixin
+from mongoengine.queryset.visitor import Q
 
 class User(UserMixin, db.Document):
     meta = {"collection":"appUsers"}
@@ -52,6 +53,10 @@ class Package(db.Document):
     @staticmethod
     def getAllPackages():
         return Package.objects()
+    
+    @staticmethod
+    def getPackageFromPrice(low, high):
+        return Package.objects(Q(unit_cost__gte=low) & Q(unit_cost__lte=high))
 
     @staticmethod
     def createPackage(hotel_name, duration, unit_cost, image_url, description):
