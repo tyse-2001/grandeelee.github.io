@@ -131,3 +131,11 @@ def upload():
 
         
     return render_template("upload.html")
+
+@app.route("/demo", methods=['POST', 'GET'])
+def demo():
+    if request.method == 'GET':
+        return render_template("ajax_demo.html")
+    if request.method == 'POST':
+        
+        return request.form['input']
