@@ -16,5 +16,3 @@ a = "240,00"
 b = "2,240"
 print(re.sub(r"(\d\d+),(\d+)", r"\1.\2", a))
 
-
-packages = db.ListField(db.ReferenceField(Package))

@@ -23,3 +23,12 @@ def create_app():
     return app, my_db, login_manager
 
 app, my_db, login_manager = create_app()
+
+from auth import auth
+app.register_blueprint(auth)
+
+from booking import booking
+app.register_blueprint(booking)
+
+from analytics import analytics
+app.register_blueprint(analytics)
