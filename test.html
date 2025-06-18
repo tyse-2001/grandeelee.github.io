@@ -1,0 +1,367 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { Mail, Linkedin, Github, FileText, Rss, ArrowRight, BookOpen } from 'lucide-react';
+
+// HELPER HOOK for fade-in animations on scroll
+const useFadeIn = (options = { threshold: 0.1, triggerOnce: true }) => {
+    const [isVisible, setIsVisible] = useState(false);
+    const ref = useRef(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting) {
+                setIsVisible(true);
+                if (options.triggerOnce && ref.current) {
+                    observer.unobserve(ref.current);
+                }
+            }
+        }, options);
+
+        if (ref.current) {
+            observer.observe(ref.current);
+        }
+
+        return () => {
+            if (ref.current) {
+                observer.unobserve(ref.current);
+            }
+        };
+    }, [options]);
+
+    const style = {
+        transition: 'opacity 1s ease-in-out, transform 0.7s ease-in-out',
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+    };
+
+    return [ref, style];
+};
+
+// DATA from CV (Replace placeholders where needed)
+const personalInfo = {
+    name: "Grandee Lee",
+    title: "Lecturer at Singapore University of Social Sciences & Nanyang Technological University",
+    email: "grandeelee@suss.edu.sg", 
+    linkedin: "https://linkedin.com/in/yourprofile", // Placeholder
+    github: "https://github.com/yourprofile", // Placeholder
+    cvUrl: "/Grandee_CV.pdf",
+    profile: "My research interests include dialogue system evaluation and dialogue generation, the application of large language models in educational settings, machine learning for learning/teaching assessment, and natural language processing in general."
+};
+
+const researchPapers = [
+    {
+        title: "Beyond Single-Event Extraction: Towards Efficient Document-Level Multi-Event Argument Extraction",
+        authors: "Wanlong Liu, Li Zhou, DingYi Zeng, Yichen Xiao, Shaohuan Cheng, Chen Zhang, Grandee Lee, Malu Zhang and Wenyu Chen",
+        journal: "The 62nd Annual Meeting of the Association for Computational Linguistics (ACL)",
+        year: "2024",
+        url: "#", // Placeholder
+        summary: "A publication on efficient argument extraction for multiple events at the document level."
+    },
+    {
+        title: "Revisiting Self-training for Few-shot Learning of Language Model",
+        authors: "Yiming Chen, Yan Zhang, Chen Zhang, Grandee Lee, Ran Cheng and Haizhou Li",
+        journal: "EMNLP 2021",
+        year: "2021",
+        url: "#", // Placeholder
+        summary: "This work explores self-training methods for language models in few-shot learning scenarios."
+    },
+    {
+        title: "DynaEval: Unifying Turn and Dialogue Level Evaluation",
+        authors: "Chen Zhang, Yiming Chen, Luis Fernando D'Haro, Yan Zhang, Grandee Lee, Haizhou Li",
+        journal: "Association for Computational Linguistics (ACL), Long Paper",
+        year: "2021",
+        url: "#", // Placeholder
+        summary: "Proposes DynaEval, a unified framework for evaluating dialogues at both the turn and overall dialogue level."
+    },
+    {
+        title: "D-score: Holistic Dialogue Evaluation without Reference",
+        authors: "Chen Zhang, Grandee Lee, Luis Fernando D'Haro, Haizhou Li",
+        journal: "IEEE/ACM Transaction on Audio, Speech, and Language Processing",
+        year: "2021",
+        url: "#", // Placeholder
+        summary: "Introduces D-score, a reference-free method for the holistic evaluation of dialogue systems."
+    },
+    {
+        title: "Modeling Code-Switch Languages Using Bilingual Parallel Corpus",
+        authors: "Grandee Lee, Haizhou Li",
+        journal: "Association for Computational Linguistics (ACL), Long Paper",
+        year: "2020",
+        url: "#", // Placeholder
+        summary: "Presents a method for modeling code-switched languages by leveraging bilingual parallel corpora."
+    }
+];
+
+const teachingItems = [
+    {
+        course: "ICT162: Object-Oriented Programming",
+        university: "Singapore University of Social Sciences",
+        role: "Lecturer",
+        years: "2023 - Present",
+        description: "Course covering the principles and practices of object-oriented programming."
+    },
+    {
+        course: "ICT239: Web Application Development",
+        university: "Singapore University of Social Sciences",
+        role: "Lecturer",
+        years: "2023 - Present",
+        description: "Focuses on the fundamentals of developing modern web applications."
+    },
+    {
+        course: "ICT302: Generative AI: Theory and Practice",
+        university: "Singapore University of Social Sciences",
+        role: "Lecturer",
+        years: "2023 - Present",
+        description: "An exploration of the theory behind generative AI models and their practical applications."
+    },
+    {
+        course: "T16502: AI, ChatGPT and Machine Translation",
+        university: "Nanyang Technological University (M.A. in Translation and Interpretation)",
+        role: "Part-time Lecturer",
+        years: "2023 - Present",
+        description: "A master's level course on the impact of AI, particularly models like ChatGPT, on machine translation."
+    },
+    {
+        course: "EE2211: Introduction to Machine Learning",
+        university: "National University of Singapore (ECE)",
+        role: "Guest Lecturer / TA",
+        years: "2020 - 2022",
+        description: "Contributed to teaching introductory concepts of machine learning to engineering students."
+    }
+];
+
+const blogPosts = [
+    {
+        title: "The Role of AI in Modern Drug Discovery",
+        date: "May 15, 2024",
+        url: "#",
+        excerpt: "An overview of how artificial intelligence is revolutionizing the pharmaceutical industry, from target identification to clinical trial optimization..."
+    },
+    {
+        title: "A Layman's Guide to Single-Cell RNA Sequencing",
+        date: "March 02, 2024",
+        url: "#",
+        excerpt: "Breaking down the complex technology of scRNA-seq and explaining its profound impact on our understanding of cellular heterogeneity..."
+    }
+];
+
+// Reusable Section Component
+const Section = ({ id, title, children }) => {
+    const [ref, style] = useFadeIn();
+    return (
+        <section id={id} ref={ref} style={style} className="py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-12 text-center">{title}</h2>
+            {children}
+        </section>
+    );
+};
+
+
+// Header Component
+const Header = ({ onNavigate }) => {
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 10);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const navLinks = [
+        { id: 'about', title: 'About' },
+        { id: 'research', title: 'Research' },
+        { id: 'teaching', title: 'Teaching' },
+        { id: 'blog', title: 'Blog' },
+    ];
+
+    return (
+        <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 shadow-md backdrop-blur-sm' : 'bg-transparent'}`}>
+            <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex items-center justify-between h-20">
+                    <div className="flex-shrink-0 cursor-pointer" onClick={() => onNavigate('home')}>
+                        <span className="text-2xl font-bold text-gray-900">GL</span>
+                    </div>
+                    <div className="hidden md:block">
+                        <div className="ml-10 flex items-baseline space-x-4">
+                            {navLinks.map((link) => (
+                                <button key={link.id} onClick={() => onNavigate(link.id)} className="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                                    {link.title}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    );
+};
+
+// Home/Hero Section Component
+const HomeSection = () => {
+    const [ref, style] = useFadeIn({threshold: 0.2});
+    return (
+        <section id="home" ref={ref} style={style} className="min-h-screen flex items-center justify-center bg-gray-50 text-center px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight">
+                    {`${personalInfo.name}`}
+                </h1>
+                <p className="mt-4 text-lg sm:text-xl text-gray-600">
+                    {personalInfo.title}
+                </p>
+                <div className="mt-8 flex justify-center items-center space-x-4">
+                    <a href={`mailto:${personalInfo.email}`} className="text-gray-500 hover:text-indigo-600 transition-colors"><Mail size={24} /></a>
+                    <a href={personalInfo.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-indigo-600 transition-colors"><Linkedin size={24} /></a>
+                    <a href={personalInfo.github} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-indigo-600 transition-colors"><Github size={24} /></a>
+                    <a href={personalInfo.cvUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all">
+                        <FileText size={18} className="mr-2"/>
+                        View CV
+                    </a>
+                </div>
+            </div>
+        </section>
+    );
+};
+
+// About Section Component
+const AboutSection = () => {
+    const [ref, style] = useFadeIn();
+    return (
+        <Section id="about" title="About Me">
+             <div ref={ref} style={style} className="bg-white p-8 rounded-lg shadow-sm max-w-3xl mx-auto">
+                 <p className="text-lg text-gray-700 leading-relaxed text-center">
+                    {personalInfo.profile}
+                 </p>
+             </div>
+        </Section>
+    );
+};
+
+// Research Section Component
+const ResearchSection = () => {
+    return (
+        <Section id="research" title="Selected Publications">
+            <div className="space-y-12">
+                {researchPapers.map((paper, index) => {
+                    const [ref, style] = useFadeIn({ threshold: 0.2 });
+                    return (
+                        <div key={index} ref={ref} style={style} className="p-6 bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300">
+                           <h3 className="text-xl font-semibold text-gray-900">{paper.title}</h3>
+                           <p className="text-sm text-gray-500 mt-1">{paper.authors} ({paper.year})</p>
+                           <p className="text-sm font-medium text-indigo-600 mt-1">{paper.journal}</p>
+                           <p className="text-gray-600 mt-3">{paper.summary}</p>
+                           <a href={paper.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-4 text-indigo-600 hover:text-indigo-800 font-semibold text-sm">
+                                Read Paper <ArrowRight size={16} className="ml-1"/>
+                           </a>
+                        </div>
+                    );
+                })}
+            </div>
+        </Section>
+    );
+};
+
+// Teaching Section Component
+const TeachingSection = () => {
+    return (
+        <Section id="teaching" title="Teaching Experience">
+            <div className="space-y-12">
+                {teachingItems.map((item, index) => {
+                    const [ref, style] = useFadeIn({ threshold: 0.2 });
+                    return (
+                        <div key={index} ref={ref} style={style} className="p-6 bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300">
+                           <div className="flex items-center mb-2">
+                                <BookOpen className="h-6 w-6 text-indigo-500 mr-3" />
+                                <h3 className="text-xl font-semibold text-gray-900">{item.course}</h3>
+                           </div>
+                           <p className="text-sm text-gray-500 mt-1 font-medium">{item.role} at {item.university} ({item.years})</p>
+                           <p className="text-gray-600 mt-3">{item.description}</p>
+                        </div>
+                    );
+                })}
+            </div>
+        </Section>
+    );
+};
+
+
+// Blog Section Component
+const BlogSection = () => {
+    return (
+        <Section id="blog" title="Recent Blog Posts">
+             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                {blogPosts.map((post, index) => {
+                    const [ref, style] = useFadeIn({ threshold: 0.2 });
+                    return (
+                        <div key={index} ref={ref} style={style} className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                            <div className="p-6">
+                                <p className="text-sm text-gray-500"><Rss size={14} className="inline-block mr-1"/> {post.date}</p>
+                                <h3 className="mt-2 text-lg font-semibold text-gray-900">{post.title}</h3>
+                                <p className="mt-2 text-gray-600 text-sm">{post.excerpt}</p>
+                               <a href={post.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-4 text-indigo-600 hover:text-indigo-800 font-semibold text-sm">
+                                    Read More <ArrowRight size={16} className="ml-1"/>
+                               </a>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+        </Section>
+    );
+};
+
+// Footer Component
+const Footer = () => {
+    return (
+        <footer className="bg-gray-800 text-white">
+            <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
+                <div className="flex justify-center space-x-6 mb-4">
+                     <a href={`mailto:${personalInfo.email}`} className="text-gray-400 hover:text-white transition-colors"><Mail size={24} /></a>
+                    <a href={personalInfo.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors"><Linkedin size={24} /></a>
+                    <a href={personalInfo.github} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors"><Github size={24} /></a>
+                </div>
+                <p className="text-sm text-gray-400">&copy; {new Date().getFullYear()} {personalInfo.name}. All Rights Reserved.</p>
+            </div>
+        </footer>
+    );
+};
+
+
+// Main App Component
+export default function App() {
+    
+    const handleNavigation = (sectionId) => {
+        const element = document.getElementById(sectionId);
+        if(element) {
+            const headerOffset = 80; 
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
+        }
+    };
+
+    return (
+        <div className="bg-gray-50 font-sans antialiased">
+            <Header onNavigate={handleNavigation} />
+            <main>
+                <HomeSection />
+                <div className="bg-white">
+                    <AboutSection />
+                </div>
+                <div className="bg-gray-50">
+                    <ResearchSection />
+                </div>
+                <div className="bg-white">
+                   <TeachingSection />
+                </div>
+                <div className="bg-gray-50">
+                    <BlogSection />
+                </div>
+            </main>
+            <Footer />
+        </div>
+    );
+}
