@@ -1,367 +1,235 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Mail, Linkedin, Github, FileText, Rss, ArrowRight, BookOpen } from 'lucide-react';
-
-// HELPER HOOK for fade-in animations on scroll
-const useFadeIn = (options = { threshold: 0.1, triggerOnce: true }) => {
-    const [isVisible, setIsVisible] = useState(false);
-    const ref = useRef(null);
-
-    useEffect(() => {
-        const observer = new IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting) {
-                setIsVisible(true);
-                if (options.triggerOnce && ref.current) {
-                    observer.unobserve(ref.current);
-                }
-            }
-        }, options);
-
-        if (ref.current) {
-            observer.observe(ref.current);
+<!DOCTYPE html>
+<html lang="en" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grandee Lee | Personal Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb; /* bg-gray-50 */
         }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease-in-out, transform 0.7s ease-in-out;
+        }
+        .fade-in.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="antialiased">
 
-        return () => {
-            if (ref.current) {
-                observer.unobserve(ref.current);
-            }
-        };
-    }, [options]);
-
-    const style = {
-        transition: 'opacity 1s ease-in-out, transform 0.7s ease-in-out',
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
-    };
-
-    return [ref, style];
-};
-
-// DATA from CV (Replace placeholders where needed)
-const personalInfo = {
-    name: "Grandee Lee",
-    title: "Lecturer at Singapore University of Social Sciences & Nanyang Technological University",
-    email: "grandeelee@suss.edu.sg", 
-    linkedin: "https://linkedin.com/in/yourprofile", // Placeholder
-    github: "https://github.com/yourprofile", // Placeholder
-    cvUrl: "/Grandee_CV.pdf",
-    profile: "My research interests include dialogue system evaluation and dialogue generation, the application of large language models in educational settings, machine learning for learning/teaching assessment, and natural language processing in general."
-};
-
-const researchPapers = [
-    {
-        title: "Beyond Single-Event Extraction: Towards Efficient Document-Level Multi-Event Argument Extraction",
-        authors: "Wanlong Liu, Li Zhou, DingYi Zeng, Yichen Xiao, Shaohuan Cheng, Chen Zhang, Grandee Lee, Malu Zhang and Wenyu Chen",
-        journal: "The 62nd Annual Meeting of the Association for Computational Linguistics (ACL)",
-        year: "2024",
-        url: "#", // Placeholder
-        summary: "A publication on efficient argument extraction for multiple events at the document level."
-    },
-    {
-        title: "Revisiting Self-training for Few-shot Learning of Language Model",
-        authors: "Yiming Chen, Yan Zhang, Chen Zhang, Grandee Lee, Ran Cheng and Haizhou Li",
-        journal: "EMNLP 2021",
-        year: "2021",
-        url: "#", // Placeholder
-        summary: "This work explores self-training methods for language models in few-shot learning scenarios."
-    },
-    {
-        title: "DynaEval: Unifying Turn and Dialogue Level Evaluation",
-        authors: "Chen Zhang, Yiming Chen, Luis Fernando D'Haro, Yan Zhang, Grandee Lee, Haizhou Li",
-        journal: "Association for Computational Linguistics (ACL), Long Paper",
-        year: "2021",
-        url: "#", // Placeholder
-        summary: "Proposes DynaEval, a unified framework for evaluating dialogues at both the turn and overall dialogue level."
-    },
-    {
-        title: "D-score: Holistic Dialogue Evaluation without Reference",
-        authors: "Chen Zhang, Grandee Lee, Luis Fernando D'Haro, Haizhou Li",
-        journal: "IEEE/ACM Transaction on Audio, Speech, and Language Processing",
-        year: "2021",
-        url: "#", // Placeholder
-        summary: "Introduces D-score, a reference-free method for the holistic evaluation of dialogue systems."
-    },
-    {
-        title: "Modeling Code-Switch Languages Using Bilingual Parallel Corpus",
-        authors: "Grandee Lee, Haizhou Li",
-        journal: "Association for Computational Linguistics (ACL), Long Paper",
-        year: "2020",
-        url: "#", // Placeholder
-        summary: "Presents a method for modeling code-switched languages by leveraging bilingual parallel corpora."
-    }
-];
-
-const teachingItems = [
-    {
-        course: "ICT162: Object-Oriented Programming",
-        university: "Singapore University of Social Sciences",
-        role: "Lecturer",
-        years: "2023 - Present",
-        description: "Course covering the principles and practices of object-oriented programming."
-    },
-    {
-        course: "ICT239: Web Application Development",
-        university: "Singapore University of Social Sciences",
-        role: "Lecturer",
-        years: "2023 - Present",
-        description: "Focuses on the fundamentals of developing modern web applications."
-    },
-    {
-        course: "ICT302: Generative AI: Theory and Practice",
-        university: "Singapore University of Social Sciences",
-        role: "Lecturer",
-        years: "2023 - Present",
-        description: "An exploration of the theory behind generative AI models and their practical applications."
-    },
-    {
-        course: "T16502: AI, ChatGPT and Machine Translation",
-        university: "Nanyang Technological University (M.A. in Translation and Interpretation)",
-        role: "Part-time Lecturer",
-        years: "2023 - Present",
-        description: "A master's level course on the impact of AI, particularly models like ChatGPT, on machine translation."
-    },
-    {
-        course: "EE2211: Introduction to Machine Learning",
-        university: "National University of Singapore (ECE)",
-        role: "Guest Lecturer / TA",
-        years: "2020 - 2022",
-        description: "Contributed to teaching introductory concepts of machine learning to engineering students."
-    }
-];
-
-const blogPosts = [
-    {
-        title: "The Role of AI in Modern Drug Discovery",
-        date: "May 15, 2024",
-        url: "#",
-        excerpt: "An overview of how artificial intelligence is revolutionizing the pharmaceutical industry, from target identification to clinical trial optimization..."
-    },
-    {
-        title: "A Layman's Guide to Single-Cell RNA Sequencing",
-        date: "March 02, 2024",
-        url: "#",
-        excerpt: "Breaking down the complex technology of scRNA-seq and explaining its profound impact on our understanding of cellular heterogeneity..."
-    }
-];
-
-// Reusable Section Component
-const Section = ({ id, title, children }) => {
-    const [ref, style] = useFadeIn();
-    return (
-        <section id={id} ref={ref} style={style} className="py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-12 text-center">{title}</h2>
-            {children}
-        </section>
-    );
-};
-
-
-// Header Component
-const Header = ({ onNavigate }) => {
-    const [isScrolled, setIsScrolled] = useState(false);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 10);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    const navLinks = [
-        { id: 'about', title: 'About' },
-        { id: 'research', title: 'Research' },
-        { id: 'teaching', title: 'Teaching' },
-        { id: 'blog', title: 'Blog' },
-    ];
-
-    return (
-        <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white/80 shadow-md backdrop-blur-sm' : 'bg-transparent'}`}>
-            <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-20">
-                    <div className="flex-shrink-0 cursor-pointer" onClick={() => onNavigate('home')}>
-                        <span className="text-2xl font-bold text-gray-900">GL</span>
-                    </div>
-                    <div className="hidden md:block">
-                        <div className="ml-10 flex items-baseline space-x-4">
-                            {navLinks.map((link) => (
-                                <button key={link.id} onClick={() => onNavigate(link.id)} className="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                                    {link.title}
-                                </button>
-                            ))}
-                        </div>
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0">
+                    <a href="#home" class="text-2xl font-bold text-gray-900">GL</a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#about" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
+                        <a href="#research" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">Research</a>
+                        <a href="#teaching" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">Teaching</a>
+                        <a href="#blog" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">Blog</a>
                     </div>
                 </div>
-            </nav>
-        </header>
-    );
-};
+            </div>
+        </nav>
+    </header>
 
-// Home/Hero Section Component
-const HomeSection = () => {
-    const [ref, style] = useFadeIn({threshold: 0.2});
-    return (
-        <section id="home" ref={ref} style={style} className="min-h-screen flex items-center justify-center bg-gray-50 text-center px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto">
-                <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight">
-                    {`${personalInfo.name}`}
+    <main>
+        <!-- Home Section -->
+        <section id="home" class="min-h-screen flex items-center justify-center bg-gray-50 text-center px-4 sm:px-6 lg:px-8 fade-in">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight">
+                    Grandee Lee
                 </h1>
-                <p className="mt-4 text-lg sm:text-xl text-gray-600">
-                    {personalInfo.title}
+                <p class="mt-4 text-lg sm:text-xl text-gray-600">
+                    Lecturer at Singapore University of Social Sciences & Nanyang Technological University
                 </p>
-                <div className="mt-8 flex justify-center items-center space-x-4">
-                    <a href={`mailto:${personalInfo.email}`} className="text-gray-500 hover:text-indigo-600 transition-colors"><Mail size={24} /></a>
-                    <a href={personalInfo.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-indigo-600 transition-colors"><Linkedin size={24} /></a>
-                    <a href={personalInfo.github} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-indigo-600 transition-colors"><Github size={24} /></a>
-                    <a href={personalInfo.cvUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all">
-                        <FileText size={18} className="mr-2"/>
+                <div class="mt-8 flex justify-center items-center space-x-4">
+                    <a href="mailto:grandeelee@suss.edu.sg" class="text-gray-500 hover:text-indigo-600 transition-colors" aria-label="Email">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    </a>
+                    <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-indigo-600 transition-colors" aria-label="LinkedIn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                    </a>
+                    <a href="https://github.com/yourprofile" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-indigo-600 transition-colors" aria-label="GitHub">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    </a>
+                    <a href="Grandee_CV.pdf" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
                         View CV
                     </a>
                 </div>
             </div>
         </section>
-    );
-};
 
-// About Section Component
-const AboutSection = () => {
-    const [ref, style] = useFadeIn();
-    return (
-        <Section id="about" title="About Me">
-             <div ref={ref} style={style} className="bg-white p-8 rounded-lg shadow-sm max-w-3xl mx-auto">
-                 <p className="text-lg text-gray-700 leading-relaxed text-center">
-                    {personalInfo.profile}
-                 </p>
-             </div>
-        </Section>
-    );
-};
+        <!-- Alternating background sections -->
+        <div class="bg-white">
+            <section id="about" class="py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto fade-in">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-12 text-center">About Me</h2>
+                <div class="bg-white p-8 rounded-lg shadow-sm max-w-3xl mx-auto">
+                    <p class="text-lg text-gray-700 leading-relaxed text-center">
+                        My research interests include dialogue system evaluation and dialogue generation, the application of large language models in educational settings, machine learning for learning/teaching assessment, and natural language processing in general.
+                    </p>
+                </div>
+            </section>
+        </div>
 
-// Research Section Component
-const ResearchSection = () => {
-    return (
-        <Section id="research" title="Selected Publications">
-            <div className="space-y-12">
-                {researchPapers.map((paper, index) => {
-                    const [ref, style] = useFadeIn({ threshold: 0.2 });
-                    return (
-                        <div key={index} ref={ref} style={style} className="p-6 bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300">
-                           <h3 className="text-xl font-semibold text-gray-900">{paper.title}</h3>
-                           <p className="text-sm text-gray-500 mt-1">{paper.authors} ({paper.year})</p>
-                           <p className="text-sm font-medium text-indigo-600 mt-1">{paper.journal}</p>
-                           <p className="text-gray-600 mt-3">{paper.summary}</p>
-                           <a href={paper.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-4 text-indigo-600 hover:text-indigo-800 font-semibold text-sm">
-                                Read Paper <ArrowRight size={16} className="ml-1"/>
+        <div class="bg-gray-50">
+            <section id="research" class="py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto fade-in">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-12 text-center">Selected Publications</h2>
+                <div id="research-list" class="space-y-12">
+                    <!-- Research items will be injected here by JavaScript -->
+                </div>
+            </section>
+        </div>
+
+        <div class="bg-white">
+            <section id="teaching" class="py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto fade-in">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-12 text-center">Teaching Experience</h2>
+                <div id="teaching-list" class="space-y-12">
+                    <!-- Teaching items will be injected here by JavaScript -->
+                </div>
+            </section>
+        </div>
+
+        <div class="bg-gray-50">
+            <section id="blog" class="py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto fade-in">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-12 text-center">Recent Blog Posts</h2>
+                <div id="blog-list" class="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                    <!-- Blog items will be injected here by JavaScript -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="mailto:grandeelee@suss.edu.sg" class="text-gray-400 hover:text-white transition-colors" aria-label="Email">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                </a>
+                <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors" aria-label="LinkedIn">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </a>
+                <a href="https://github.com/yourprofile" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors" aria-label="GitHub">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                </a>
+            </div>
+            <p class="text-sm text-gray-400">&copy; 2024 Grandee Lee. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Data Objects
+        const researchPapers = [
+            { title: "Beyond Single-Event Extraction: Towards Efficient Document-Level Multi-Event Argument Extraction", authors: "Wanlong Liu, Li Zhou, DingYi Zeng, Yichen Xiao, Shaohuan Cheng, Chen Zhang, Grandee Lee, Malu Zhang and Wenyu Chen", journal: "The 62nd Annual Meeting of the Association for Computational Linguistics (ACL)", year: "2024", url: "#", summary: "A publication on efficient argument extraction for multiple events at the document level." },
+            { title: "Revisiting Self-training for Few-shot Learning of Language Model", authors: "Yiming Chen, Yan Zhang, Chen Zhang, Grandee Lee, Ran Cheng and Haizhou Li", journal: "EMNLP 2021", year: "2021", url: "#", summary: "This work explores self-training methods for language models in few-shot learning scenarios." },
+            { title: "DynaEval: Unifying Turn and Dialogue Level Evaluation", authors: "Chen Zhang, Yiming Chen, Luis Fernando D'Haro, Yan Zhang, Grandee Lee, Haizhou Li", journal: "Association for Computational Linguistics (ACL), Long Paper", year: "2021", url: "#", summary: "Proposes DynaEval, a unified framework for evaluating dialogues at both the turn and overall dialogue level." },
+            { title: "D-score: Holistic Dialogue Evaluation without Reference", authors: "Chen Zhang, Grandee Lee, Luis Fernando D'Haro, Haizhou Li", journal: "IEEE/ACM Transaction on Audio, Speech, and Language Processing", year: "2021", url: "#", summary: "Introduces D-score, a reference-free method for the holistic evaluation of dialogue systems." },
+            { title: "Modeling Code-Switch Languages Using Bilingual Parallel Corpus", authors: "Grandee Lee, Haizhou Li", journal: "Association for Computational Linguistics (ACL), Long Paper", year: "2020", url: "#", summary: "Presents a method for modeling code-switched languages by leveraging bilingual parallel corpora." }
+        ];
+
+        const teachingItems = [
+            { course: "ICT162: Object-Oriented Programming", university: "Singapore University of Social Sciences", role: "Lecturer", years: "2023 - Present", description: "Course covering the principles and practices of object-oriented programming." },
+            { course: "ICT239: Web Application Development", university: "Singapore University of Social Sciences", role: "Lecturer", years: "2023 - Present", description: "Focuses on the fundamentals of developing modern web applications." },
+            { course: "ICT302: Generative AI: Theory and Practice", university: "Singapore University of Social Sciences", role: "Lecturer", years: "2023 - Present", description: "An exploration of the theory behind generative AI models and their practical applications." },
+            { course: "T16502: AI, ChatGPT and Machine Translation", university: "Nanyang Technological University (M.A. in Translation and Interpretation)", role: "Part-time Lecturer", years: "2023 - Present", description: "A master's level course on the impact of AI, particularly models like ChatGPT, on machine translation." },
+            { course: "EE2211: Introduction to Machine Learning", university: "National University of Singapore (ECE)", role: "Guest Lecturer / TA", years: "2020 - 2022", description: "Contributed to teaching introductory concepts of machine learning to engineering students." }
+        ];
+        
+        const blogPosts = [
+            { title: "The Role of AI in Modern Drug Discovery", date: "May 15, 2024", url: "#", excerpt: "An overview of how artificial intelligence is revolutionizing the pharmaceutical industry, from target identification to clinical trial optimization..." },
+            { title: "A Layman's Guide to Single-Cell RNA Sequencing", date: "March 02, 2024", url: "#", excerpt: "Breaking down the complex technology of scRNA-seq and explaining its profound impact on our understanding of cellular heterogeneity..." }
+        ];
+
+        // Function to populate content
+        function populateContent() {
+            const researchList = document.getElementById('research-list');
+            researchPapers.forEach(paper => {
+                researchList.innerHTML += `
+                    <div class="p-6 bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 fade-in">
+                       <h3 class="text-xl font-semibold text-gray-900">${paper.title}</h3>
+                       <p class="text-sm text-gray-500 mt-1">${paper.authors} (${paper.year})</p>
+                       <p class="text-sm font-medium text-indigo-600 mt-1">${paper.journal}</p>
+                       <p class="text-gray-600 mt-3">${paper.summary}</p>
+                       <a href="${paper.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center mt-4 text-indigo-600 hover:text-indigo-800 font-semibold text-sm">
+                            Read Paper <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                       </a>
+                    </div>
+                `;
+            });
+
+            const teachingList = document.getElementById('teaching-list');
+            teachingItems.forEach(item => {
+                teachingList.innerHTML += `
+                    <div class="p-6 bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 fade-in">
+                       <div class="flex items-center mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 text-indigo-500 mr-3"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                            <h3 class="text-xl font-semibold text-gray-900">${item.course}</h3>
+                       </div>
+                       <p class="text-sm text-gray-500 mt-1 font-medium">${item.role} at ${item.university} (${item.years})</p>
+                       <p class="text-gray-600 mt-3">${item.description}</p>
+                    </div>
+                `;
+            });
+
+            const blogList = document.getElementById('blog-list');
+            blogPosts.forEach(post => {
+                blogList.innerHTML += `
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300 fade-in">
+                        <div class="p-6">
+                            <p class="text-sm text-gray-500 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block mr-1"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg> ${post.date}</p>
+                            <h3 class="mt-2 text-lg font-semibold text-gray-900">${post.title}</h3>
+                            <p class="mt-2 text-gray-600 text-sm">${post.excerpt}</p>
+                           <a href="${post.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center mt-4 text-indigo-600 hover:text-indigo-800 font-semibold text-sm">
+                                Read More <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
                            </a>
                         </div>
-                    );
-                })}
-            </div>
-        </Section>
-    );
-};
-
-// Teaching Section Component
-const TeachingSection = () => {
-    return (
-        <Section id="teaching" title="Teaching Experience">
-            <div className="space-y-12">
-                {teachingItems.map((item, index) => {
-                    const [ref, style] = useFadeIn({ threshold: 0.2 });
-                    return (
-                        <div key={index} ref={ref} style={style} className="p-6 bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300">
-                           <div className="flex items-center mb-2">
-                                <BookOpen className="h-6 w-6 text-indigo-500 mr-3" />
-                                <h3 className="text-xl font-semibold text-gray-900">{item.course}</h3>
-                           </div>
-                           <p className="text-sm text-gray-500 mt-1 font-medium">{item.role} at {item.university} ({item.years})</p>
-                           <p className="text-gray-600 mt-3">{item.description}</p>
-                        </div>
-                    );
-                })}
-            </div>
-        </Section>
-    );
-};
-
-
-// Blog Section Component
-const BlogSection = () => {
-    return (
-        <Section id="blog" title="Recent Blog Posts">
-             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-                {blogPosts.map((post, index) => {
-                    const [ref, style] = useFadeIn({ threshold: 0.2 });
-                    return (
-                        <div key={index} ref={ref} style={style} className="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300">
-                            <div className="p-6">
-                                <p className="text-sm text-gray-500"><Rss size={14} className="inline-block mr-1"/> {post.date}</p>
-                                <h3 className="mt-2 text-lg font-semibold text-gray-900">{post.title}</h3>
-                                <p className="mt-2 text-gray-600 text-sm">{post.excerpt}</p>
-                               <a href={post.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center mt-4 text-indigo-600 hover:text-indigo-800 font-semibold text-sm">
-                                    Read More <ArrowRight size={16} className="ml-1"/>
-                               </a>
-                            </div>
-                        </div>
-                    );
-                })}
-            </div>
-        </Section>
-    );
-};
-
-// Footer Component
-const Footer = () => {
-    return (
-        <footer className="bg-gray-800 text-white">
-            <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
-                <div className="flex justify-center space-x-6 mb-4">
-                     <a href={`mailto:${personalInfo.email}`} className="text-gray-400 hover:text-white transition-colors"><Mail size={24} /></a>
-                    <a href={personalInfo.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors"><Linkedin size={24} /></a>
-                    <a href={personalInfo.github} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors"><Github size={24} /></a>
-                </div>
-                <p className="text-sm text-gray-400">&copy; {new Date().getFullYear()} {personalInfo.name}. All Rights Reserved.</p>
-            </div>
-        </footer>
-    );
-};
-
-
-// Main App Component
-export default function App() {
-    
-    const handleNavigation = (sectionId) => {
-        const element = document.getElementById(sectionId);
-        if(element) {
-            const headerOffset = 80; 
-            const elementPosition = element.getBoundingClientRect().top;
-            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-            
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: "smooth"
+                    </div>
+                `;
             });
         }
-    };
+        
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 10) {
+                header.classList.add('bg-white/80', 'shadow-md', 'backdrop-blur-sm');
+            } else {
+                header.classList.remove('bg-white/80', 'shadow-md', 'backdrop-blur-sm');
+            }
+        });
 
-    return (
-        <div className="bg-gray-50 font-sans antialiased">
-            <Header onNavigate={handleNavigation} />
-            <main>
-                <HomeSection />
-                <div className="bg-white">
-                    <AboutSection />
-                </div>
-                <div className="bg-gray-50">
-                    <ResearchSection />
-                </div>
-                <div className="bg-white">
-                   <TeachingSection />
-                </div>
-                <div className="bg-gray-50">
-                    <BlogSection />
-                </div>
-            </main>
-            <Footer />
-        </div>
-    );
-}
+        // Fade-in animation on scroll
+        const fadeInObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Run scripts on load
+        document.addEventListener('DOMContentLoaded', () => {
+            populateContent();
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(el => fadeInObserver.observe(el));
+        });
+
+    </script>
+
+</body>
+</html>
