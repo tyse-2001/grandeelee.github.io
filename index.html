@@ -27,6 +27,14 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Custom styles for the floating text effect */
+        .floating-text {
+            /* Initially give a subtle shadow and enable 3D transforms */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            transition: text-shadow 0.1s linear; /* Smooth transition for shadow */
+            will-change: text-shadow; /* Optimize performance for shadow changes */
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -57,7 +65,8 @@
         <!-- Home Section: Full screen hero section with name, title, and social links -->
         <section id="home" class="min-h-screen flex items-center justify-center bg-gray-50 text-center px-4 sm:px-6 lg:px-8 fade-in">
             <div class="max-w-4xl mx-auto">
-                <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight">
+                <!-- 'Grandee Lee' text with white color and floating effect -->
+                <h1 id="grandee-lee-text" class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight floating-text">
                     Grandee Lee
                 </h1>
                 <!-- Social Media and CV links -->
@@ -280,9 +289,33 @@
             // Select all elements with the 'fade-in' class and observe them
             const elements = document.querySelectorAll('.fade-in');
             elements.forEach(el => fadeInObserver.observe(el));
+
+            // Dynamic shadow effect for "Grandee Lee"
+            const homeSection = document.getElementById('home');
+            const grandeeLeeText = document.getElementById('grandee-lee-text');
+
+            homeSection.addEventListener('mousemove', (e) => {
+                const rect = homeSection.getBoundingClientRect();
+                // Calculate mouse position relative to the center of the text element
+                const mouseX = e.clientX - rect.left - rect.width / 2;
+                const mouseY = e.clientY - rect.top - rect.height / 2;
+
+                // Adjust shadow intensity and spread based on mouse position
+                // Max shadow offset, reduced for subtler movement
+                const maxOffset = 10; 
+
+                const shadowX = (mouseX / rect.width) * -maxOffset;
+                const shadowY = (mouseY / rect.height) * -maxOffset;
+
+                // Apply dynamic text shadow with reduced blur
+                grandeeLeeText.style.textShadow = `${shadowX}px ${shadowY}px 7px rgba(0, 0, 0, 0.3)`;
+            });
+
+            // Reset shadow when mouse leaves the section
+            homeSection.addEventListener('mouseleave', () => {
+                grandeeLeeText.style.textShadow = '2px 2px 7px rgba(0, 0, 0, 0.3)'; // Default shadow
+            });
         });
-
     </script>
-
 </body>
 </html>
