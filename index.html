@@ -1,1 +1,172 @@
-this is new
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Academic Page</title>
+    <!-- Use Tailwind CSS for clean and modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for a scrollable single-page application */
+        html {
+            /* Enable smooth scrolling when navigating to different sections */
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb; /* Light gray background */
+            color: #111827; /* Dark gray text */
+            /* Allow scrolling now that sections are stacked */
+            overflow-x: hidden;
+        }
+
+        /* Base style for all sections to ensure they take up the full viewport height */
+        .section {
+            width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-top: 5rem; /* Add padding to account for the fixed navigation bar */
+            padding-bottom: 2rem;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            transition: background-color 0.5s ease;
+        }
+
+        /* Navigation link styles */
+        .nav-link {
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+        }
+        .nav-link.active {
+            color: #3b82f6; /* Blue for active link */
+            border-bottom: 2px solid #3b82f6;
+        }
+        .nav-link:hover {
+            color: #1d4ed8; /* Darker blue on hover */
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navigation Bar -->
+    <nav class="fixed top-0 left-0 w-full bg-white bg-opacity-90 backdrop-blur-sm z-20 shadow-md">
+        <div class="container mx-auto flex justify-center py-4">
+            <ul class="flex space-x-8 text-xl font-bold">
+                <li><a href="#about" class="nav-link px-2 py-1 active" data-section="about">About</a></li>
+                <li><a href="#research" class="nav-link px-2 py-1" data-section="research">Research</a></li>
+                <li><a href="#teaching" class="nav-link px-2 py-1" data-section="teaching">Teaching</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content Sections -->
+
+    <!-- About Section -->
+    <section id="about" class="section bg-white">
+        <div class="max-w-4xl text-center">
+            <h1 class="text-6xl font-bold mb-4 text-gray-800">Hi, I'm [Your Name]</h1>
+            <p class="text-xl text-gray-600 mb-8">
+                I am a passionate researcher and educator specializing in [Your Field]. My work focuses on [Your primary focus].
+            </p>
+            <p class="text-lg text-gray-700">
+                This is a placeholder for your detailed biography. You can talk about your background, your current role, and your academic interests. Feel free to add more paragraphs here.
+            </p>
+        </div>
+    </section>
+
+    <!-- Research Section -->
+    <section id="research" class="section bg-gray-100">
+        <div class="max-w-4xl text-center">
+            <h2 class="text-5xl font-bold mb-4 text-gray-800">Research</h2>
+            <p class="text-xl text-gray-600 mb-8">
+                My research explores the intersection of [Topic 1] and [Topic 2], with a focus on developing new methodologies for [Application].
+            </p>
+            <ul class="text-lg text-gray-700 space-y-4 text-left">
+                <li>
+                    <strong>Project Title 1:</strong> A brief description of the project and your role.
+                </li>
+                <li>
+                    <strong>Project Title 2:</strong> A brief description of the project and your role.
+                </li>
+                <li>
+                    <strong>Project Title 3:</strong> A brief description of the project and your role.
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Teaching Section -->
+    <section id="teaching" class="section bg-white">
+        <div class="max-w-4xl text-center">
+            <h2 class="text-5xl font-bold mb-4 text-gray-800">Teaching</h2>
+            <p class="text-xl text-gray-600 mb-8">
+                I am committed to fostering a dynamic and inclusive learning environment. Here are some of the courses I have taught or am currently teaching.
+            </p>
+            <ul class="text-lg text-gray-700 space-y-4 text-left">
+                <li>
+                    <strong>Course Name (Semester/Year):</strong> A short description of the course content.
+                </li>
+                <li>
+                    <strong>Course Name (Semester/Year):</strong> A short description of the course content.
+                </li>
+                <li>
+                    <strong>Course Name (Semester/Year):</strong> A short description of the course content.
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+
+            // Set up Intersection Observer to handle active navigation links on scroll
+            const observerOptions = {
+                root: null, // Use the viewport as the root
+                rootMargin: '0px',
+                threshold: 0.7 // Trigger when 70% of the section is visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Remove active class from all links
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        
+                        // Find the corresponding navigation link and add the active class
+                        const targetSectionId = entry.target.id;
+                        const activeLink = document.querySelector(`.nav-link[data-section="${targetSectionId}"]`);
+                        if (activeLink) {
+                            activeLink.classList.add('active');
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            // Observe each section
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Smooth scroll on click
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = e.target.getAttribute('data-section');
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
