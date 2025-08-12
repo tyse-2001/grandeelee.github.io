@@ -1,170 +1,319 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="scroll-behavior: smooth;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Academic Page</title>
-    <!-- Use Tailwind CSS for clean and modern styling -->
+    <title>Grandee Lee | Personal Portfolio</title>
+    <!-- Tailwind CSS CDN for utility-first styling -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter for clean typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        /* Custom styles for a scrollable single-page application */
-        html {
-            /* Enable smooth scrolling when navigating to different sections */
-            scroll-behavior: smooth;
-        }
-
+        /* Custom styles for the body font and fade-in animation */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f9fafb; /* Light gray background */
-            color: #111827; /* Dark gray text */
-            /* Allow scrolling now that sections are stacked */
-            overflow-x: hidden;
+            background-color: #f9fafb; /* bg-gray-50 from Tailwind palette */
+        }
+        /* Styles for the fade-in animation, initially hidden and slightly translated */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease-in-out, transform 0.7s ease-in-out;
+        }
+        /* Class added by JavaScript when element is visible, makes it opaque and moves it to original position */
+        .fade-in.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        /* Base style for all sections to ensure they take up the full viewport height */
-        .section {
-            width: 100vw;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding-top: 5rem; /* Add padding to account for the fixed navigation bar */
-            padding-bottom: 2rem;
-            padding-left: 2rem;
-            padding-right: 2rem;
-            transition: background-color 0.5s ease;
-        }
-
-        /* Navigation link styles */
-        .nav-link {
-            transition: color 0.3s ease, border-bottom 0.3s ease;
-        }
-        .nav-link.active {
-            color: #3b82f6; /* Blue for active link */
-            border-bottom: 2px solid #3b82f6;
-        }
-        .nav-link:hover {
-            color: #1d4ed8; /* Darker blue on hover */
+        /* Custom styles for the floating text effect */
+        .floating-text {
+            /* Initially give a subtle shadow and enable 3D transforms */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            transition: text-shadow 0.1s linear; /* Smooth transition for shadow */
+            will-change: text-shadow; /* Optimize performance for shadow changes */
         }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="antialiased">
 
-    <!-- Navigation Bar -->
-    <nav class="fixed top-0 left-0 w-full bg-white bg-opacity-90 backdrop-blur-sm z-20 shadow-md">
-        <div class="container mx-auto flex justify-center py-4">
-            <ul class="flex space-x-8 text-xl font-bold">
-                <li><a href="#about" class="nav-link px-2 py-1 active" data-section="about">About</a></li>
-                <li><a href="#research" class="nav-link px-2 py-1" data-section="research">Research</a></li>
-                <li><a href="#teaching" class="nav-link px-2 py-1" data-section="teaching">Teaching</a></li>
-            </ul>
+    <!-- Header Section: Fixed at the top, becomes solid on scroll -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo/Name: Simple text logo linking to home -->
+                <div class="flex-shrink-0">
+                    <a href="#home" class="text-2xl font-bold text-gray-900">GL</a>
+                </div>
+                <!-- Navigation Links: Hidden on small screens, visible on medium and larger -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#about" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
+                        <a href="#research" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">Research</a>
+                        <a href="#teaching" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">Teaching</a>
+                        <!-- Blog Link (commented out) -->
+                        <!-- <a href="#blog" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">Blog</a> -->
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Home Section: Full screen hero section with name, title, and social links -->
+        <section id="home" class="min-h-screen flex items-center justify-center bg-gray-50 text-center px-4 sm:px-6 lg:px-8 fade-in">
+            <div class="max-w-4xl mx-auto">
+                <!-- 'Grandee Lee' text with white color and floating effect -->
+                <h1 id="grandee-lee-text" class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight floating-text">
+                    Grandee Lee
+                </h1>
+                <!-- Social Media and CV links -->
+                <div class="mt-8 flex justify-center items-center space-x-4">
+                    <a href="mailto:grandeelee@suss.edu.sg" class="text-gray-500 hover:text-indigo-600 transition-colors" aria-label="Email">
+                        <!-- Email Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    </a>
+                    <a href="https://linkedin.com/in/grandeelee" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-indigo-600 transition-colors" aria-label="LinkedIn">
+                        <!-- LinkedIn Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                    </a>
+                    <a href="https://github.com/grandeelee" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-indigo-600 transition-colors" aria-label="GitHub">
+                         <!-- GitHub Icon -->
+                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    </a>
+                    <a href="https://www.suss.edu.sg/academics/schools-college/faculty-listing/detail/dr-grandee-lee" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all">
+                        <!-- CV Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                        View CV
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Alternating background sections for visual separation -->
+        <div class="bg-white">
+            <!-- About Section -->
+            <section id="about" class="min-h-screen flex items-center py-20 px-4 sm:px-6 lg:px-8 fade-in">
+                <div class="w-full max-w-5xl mx-auto">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-12 text-center">About Me</h2>
+                    <div class="bg-white p-8 rounded-lg shadow-sm max-w-3xl mx-auto">
+                        <p class="text-lg text-gray-700 leading-relaxed text-center">
+                            My research interests include dialogue system evaluation and dialogue generation, the application of large language models in educational settings, machine learning for learning/teaching assessment, and multi-agent simulation.
+                        </p>
+                    </div>
+                </div>
+            </section>
         </div>
-    </nav>
 
-    <!-- Main Content Sections -->
-
-    <!-- About Section -->
-    <section id="about" class="section bg-white">
-        <div class="max-w-4xl text-center">
-            <h1 class="text-6xl font-bold mb-4 text-gray-800">Hi, I'm [Your Name]</h1>
-            <p class="text-xl text-gray-600 mb-8">
-                I am a passionate researcher and educator specializing in [Your Field]. My work focuses on [Your primary focus].
-            </p>
-            <p class="text-lg text-gray-700">
-                This is a placeholder for your detailed biography. You can talk about your background, your current role, and your academic interests. Feel free to add more paragraphs here.
-            </p>
+        <div class="bg-gray-50">
+             <!-- Research Section: Populated dynamically by JavaScript -->
+             <section id="research" class="min-h-screen flex items-center py-20 px-4 sm:px-6 lg:px-8 fade-in">
+                <div class="w-full max-w-5xl mx-auto pt-12">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-12 text-center">Selected Publications</h2>
+                    <div id="research-list" class="space-y-4">
+                        <!-- Research items will be injected here by JavaScript -->
+                    </div>
+                </div>
+            </section>
         </div>
-    </section>
 
-    <!-- Research Section -->
-    <section id="research" class="section bg-gray-100">
-        <div class="max-w-4xl text-center">
-            <h2 class="text-5xl font-bold mb-4 text-gray-800">Research</h2>
-            <p class="text-xl text-gray-600 mb-8">
-                My research explores the intersection of [Topic 1] and [Topic 2], with a focus on developing new methodologies for [Application].
-            </p>
-            <ul class="text-lg text-gray-700 space-y-4 text-left">
-                <li>
-                    <strong>Project Title 1:</strong> A brief description of the project and your role.
-                </li>
-                <li>
-                    <strong>Project Title 2:</strong> A brief description of the project and your role.
-                </li>
-                <li>
-                    <strong>Project Title 3:</strong> A brief description of the project and your role.
-                </li>
-            </ul>
+        <div class="bg-white">
+            <!-- Teaching Section: Populated dynamically by JavaScript -->
+            <section id="teaching" class="min-h-screen flex items-center py-20 px-4 sm:px-6 lg:px-8 fade-in">
+                <div class="w-full max-w-5xl mx-auto pt-12">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-12 text-center">Teaching</h2>
+                    <div id="teaching-list" class="space-y-12">
+                        <!-- Teaching items will be injected here by JavaScript -->
+                    </div>
+                </div>
+            </section>
         </div>
-    </section>
 
-    <!-- Teaching Section -->
-    <section id="teaching" class="section bg-white">
-        <div class="max-w-4xl text-center">
-            <h2 class="text-5xl font-bold mb-4 text-gray-800">Teaching</h2>
-            <p class="text-xl text-gray-600 mb-8">
-                I am committed to fostering a dynamic and inclusive learning environment. Here are some of the courses I have taught or am currently teaching.
-            </p>
-            <ul class="text-lg text-gray-700 space-y-4 text-left">
-                <li>
-                    <strong>Course Name (Semester/Year):</strong> A short description of the course content.
-                </li>
-                <li>
-                    <strong>Course Name (Semester/Year):</strong> A short description of the course content.
-                </li>
-                <li>
-                    <strong>Course Name (Semester/Year):</strong> A short description of the course content.
-                </li>
-            </ul>
+        <!-- Blog Section (commented out for now) -->
+        <!--
+        <div class="bg-gray-50">
+            <section id="blog" class="min-h-screen flex items-center py-20 px-4 sm:px-6 lg:px-8 fade-in">
+                <div class="w-full max-w-5xl mx-auto">
+                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-12 text-center">Recent Blog Posts</h2>
+                    <div id="blog-list" class="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                        -->
+                        <!-- Blog items will be injected here by JavaScript -->
+                        <!--
+                    </div>
+                </div>
+            </section>
         </div>
-    </section>
+        -->
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 text-white">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
+            <!-- Social Media Icons in the footer -->
+            <div class="flex justify-center space-x-6 mb-4">
+                <a href="mailto:grandeelee@suss.edu.sg" class="text-gray-400 hover:text-white transition-colors" aria-label="Email">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                </a>
+                <a href="https://linkedin.com/in/grandeelee" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors" aria-label="LinkedIn">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                </a>
+                <a href="https://github.com/grandeelee" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors" aria-label="GitHub">
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                </a>
+            </div>
+            <p class="text-sm text-gray-400">&copy; 2025 Grandee Lee. All Rights Reserved.</p>
+        </div>
+    </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const navLinks = document.querySelectorAll('.nav-link');
-            const sections = document.querySelectorAll('.section');
+        // Data Objects: These arrays hold the content for the Research, Teaching, and Blog sections.
+        const researchPapers = [
+            { title: "Beyond Single-Event Extraction: Towards Efficient Document-Level Multi-Event Argument Extraction", authors: "Wanlong Liu, Li Zhou, DingYi Zeng, Yichen Xiao, Shaohuan Cheng, Chen Zhang, Grandee Lee, Malu Zhang and Wenyu Chen", journal: "The 62nd Annual Meeting of the Association for Computational Linguistics (ACL)", year: "2024", url: "#" },
+            { title: "Revisiting Self-training for Few-shot Learning of Language Model", authors: "Yiming Chen, Yan Zhang, Chen Zhang, Grandee Lee, Ran Cheng and Haizhou Li", journal: "EMNLP 2021", year: "2021", url: "#" },
+            { title: "DynaEval: Unifying Turn and Dialogue Level Evaluation", authors: "Chen Zhang, Yiming Chen, Luis Fernando D'Haro, Yan Zhang, Grandee Lee, Haizhou Li", journal: "Association for Computational Linguistics (ACL), Long Paper", year: "2021", url: "#" },
+            { title: "D-score: Holistic Dialogue Evaluation without Reference", authors: "Chen Zhang, Grandee Lee, Luis Fernando D'Haro, Haizhou Li", journal: "IEEE/ACM Transaction on Audio, Speech, and Language Processing", year: "2021", url: "#" },
+            { title: "Modeling Code-Switch Languages Using Bilingual Parallel Corpus", authors: "Grandee Lee, Haizhou Li", journal: "Association for Computational Linguistics (ACL), Long Paper", year: "2020", url: "#" },
+            { title: "Self-and-Mixed Attention Decoder with Deep Acoustic Structure for Transformer-based LVCSR", authors: "Xinyuan Zhou, Grandee Lee, Emre Yılmaz, Yanhua Long, Jiaen Liang, Haizhou Li", journal: "INTERSPEECH", year: "2020", url: "#" },
+            { title: "End-to-end code-switching TTS with cross-lingual language model", authors: "Xuehao Zhou, Xiaohai Tian, Grandee Lee, Rohan Kumar Das, Haizhou Li", journal: "ICASSP. IEEE.", year: "2020", url: "#" },
+            { title: "End-to-end code-switching ASR for low-resourced language pairs", authors: "Xianghu Yue, Grandee Lee, Emre Yılmaz, Fang Deng, Haizhou Li", journal: "ASRU", year: "2019", url: "#" },
+            { title: "Linguistically motivated parallel data augmentation for code-switch language modeling", authors: "Grandee Lee, Xianghu Yue, Haizhou Li", journal: "INTERSPEECH", year: "2019", url: "#" },
+            { title: "Word and class common space embedding for code-Switch language modeling", authors: "Grandee Lee, Haizhou Li", journal: "ICASSP. IEEE.", year: "2019", url: "#" },
+            { title: "Phonetically aware exemplar-based prosody transformation", authors: "Berrak Sisman, Grandee Lee, Haizhou Li", journal: "Proc. Odyssey 2018 The Speaker and Language Recognition Workshop.", year: "2018", url: "#" },
+            { title: "On the analysis and evaluation of prosody conversion techniques", authors: "Berrak Sisman, Grandee Lee, Haizhou Li, Kay Chen Tan", journal: "Asian Language Processing (IALP). Singapore. Dec 5.", year: "2017", url: "#" },
+            { title: "A review of the mandarin-english code-switching corpus: SEAME", authors: "Grandee Lee, Thi-Nga Ho, Eng-Siong Chng, Haizhou Li", journal: "Asian Language Processing (IALP). Singapore. Dec 5.", year: "2017", url: "#" }
+        ].sort((a, b) => b.year - a.year); // Sort by year in descending order
 
-            // Set up Intersection Observer to handle active navigation links on scroll
-            const observerOptions = {
-                root: null, // Use the viewport as the root
-                rootMargin: '0px',
-                threshold: 0.7 // Trigger when 70% of the section is visible
-            };
+        const teachingItems = [
+            { course: "ICT162: Object-Oriented Programming", university: "Singapore University of Social Sciences", role: "Lecturer", years: "2023 - Present", description: "Course covering the principles and practices of object-oriented programming." },
+            { course: "ICT239: Web Application Development", university: "Singapore University of Social Sciences", role: "Lecturer", years: "2023 - Present", description: "Focuses on the fundamentals of developing modern web applications." },
+            { course: "ICT302: Generative AI: Theory and Practice", university: "Singapore University of Social Sciences", role: "Lecturer", years: "2023 - Present", description: "An exploration of the theory behind generative AI models and their practical applications." },
+            { course: "T16502: AI, ChatGPT and Machine Translation", university: "Nanyang Technological University (M.A. in Translation and Interpretation)", role: "Part-time Lecturer", years: "2023 - Present", description: "A master's level course on the impact of AI, particularly models like ChatGPT, on machine translation." },
+            { course: "EE2211: Introduction to Machine Learning", university: "National University of Singapore (ECE)", role: "Guest Lecturer / TA", years: "2020 - 2022", description: "Contributed to teaching introductory concepts of machine learning to engineering students." }
+        ];
+        
+        // Blog Posts (commented out)
+        /*
+        const blogPosts = [
+            { title: "The Role of AI in Modern Drug Discovery", date: "May 15, 2024", url: "#", excerpt: "An overview of how artificial intelligence is revolutionizing the pharmaceutical industry, from target identification to clinical trial optimization..." },
+            { title: "A Layman's Guide to Single-Cell RNA Sequencing", date: "March 02, 2024", url: "#", excerpt: "Breaking down the complex technology of scRNA-seq and explaining its profound impact on our understanding of cellular heterogeneity..." }
+        ];
+        */
 
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        // Remove active class from all links
-                        navLinks.forEach(link => link.classList.remove('active'));
-                        
-                        // Find the corresponding navigation link and add the active class
-                        const targetSectionId = entry.target.id;
-                        const activeLink = document.querySelector(`.nav-link[data-section="${targetSectionId}"]`);
-                        if (activeLink) {
-                            activeLink.classList.add('active');
-                        }
-                    }
-                });
-            }, observerOptions);
-
-            // Observe each section
-            sections.forEach(section => {
-                observer.observe(section);
+        // Function to dynamically populate the content sections using the data objects.
+        function populateContent() {
+            // Populate Research section
+            const researchList = document.getElementById('research-list');
+            researchList.innerHTML = ''; // Clear existing content to avoid duplication on re-render
+            researchPapers.forEach(paper => {
+                researchList.innerHTML += `
+                    <div class="fade-in mb-4 pb-2 border-b border-gray-200 last:border-b-0">
+                       <h3 class="text-lg font-semibold text-gray-900">${paper.title}</h3>
+                       <p class="text-sm text-gray-700 mt-1">${paper.authors} (${paper.year}). <em>${paper.journal}</em>.</p>
+                       <a href="${paper.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center mt-2 text-indigo-600 hover:text-indigo-800 font-medium text-sm">
+                            Read Paper <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                       </a>
+                    </div>
+                `;
             });
 
-            // Smooth scroll on click
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const targetId = e.target.getAttribute('data-section');
-                    const targetSection = document.getElementById(targetId);
-                    if (targetSection) {
-                        targetSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                });
+            // Populate Teaching section
+            const teachingList = document.getElementById('teaching-list');
+            teachingList.innerHTML = ''; // Clear existing content
+            teachingItems.forEach(item => {
+                teachingList.innerHTML += `
+                    <div class="p-6 bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 fade-in">
+                       <div class="flex items-center mb-2">
+                            <!-- Book Icon -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-6 w-6 text-indigo-500 mr-3"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                            <h3 class="text-xl font-semibold text-gray-900">${item.course}</h3>
+                       </div>
+                       <p class="text-sm text-gray-500 mt-1 font-medium">${item.role} at ${item.university} (${item.years})</p>
+                       <p class="text-gray-600 mt-3">${item.description}</p>
+                    </div>
+                `;
+            });
+
+            // Populate Blog section (commented out)
+            /*
+            const blogList = document.getElementById('blog-list');
+            blogList.innerHTML = ''; // Clear existing content
+            blogPosts.forEach(post => {
+                blogList.innerHTML += `
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-lg transition-shadow duration-300 fade-in">
+                        <div class="p-6">
+                            <p class="text-sm text-gray-500 flex items-center">
+                                <!-- Calendar Icon -->
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block mr-1"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg> ${post.date}
+                            </p>
+                            <h3 class="mt-2 text-lg font-semibold text-gray-900">${post.title}</h3>
+                            <p class="mt-2 text-gray-600 text-sm">${post.excerpt}</p>
+                           <a href="${post.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center mt-4 text-indigo-600 hover:text-indigo-800 font-semibold text-sm">
+                                Read More <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                           </a>
+                        </div>
+                    </div>
+                `;
+            });
+            */
+        }
+        
+        // Header scroll effect: Adds background and shadow to the header when scrolled down.
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 10) {
+                // Add classes for a subtle background, shadow, and blur effect
+                header.classList.add('bg-white/80', 'shadow-md', 'backdrop-blur-sm');
+            } else {
+                // Remove classes when at the top of the page
+                header.classList.remove('bg-white/80', 'shadow-md', 'backdrop-blur-sm');
+            }
+        });
+
+        // Fade-in animation on scroll: Uses Intersection Observer API for performance.
+        const fadeInObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Add 'is-visible' class to trigger the fade-in animation
+                    entry.target.classList.add('is-visible');
+                    // Stop observing once the element has faded in to optimize performance
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 }); // Trigger when 10% of the element is visible
+
+        // Run scripts on load: Ensures content is populated and observers are set up after the DOM is ready.
+        document.addEventListener('DOMContentLoaded', () => {
+            populateContent(); // Call function to inject content
+            // Select all elements with the 'fade-in' class and observe them
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(el => fadeInObserver.observe(el));
+
+            // Dynamic shadow effect for "Grandee Lee"
+            const homeSection = document.getElementById('home');
+            const grandeeLeeText = document.getElementById('grandee-lee-text');
+
+            homeSection.addEventListener('mousemove', (e) => {
+                const rect = homeSection.getBoundingClientRect();
+                // Calculate mouse position relative to the center of the text element
+                const mouseX = e.clientX - rect.left - rect.width / 2;
+                const mouseY = e.clientY - rect.top - rect.height / 2;
+
+                // Adjust shadow intensity and spread based on mouse position
+                // Max shadow offset, reduced for subtler movement
+                const maxOffset = 10; 
+
+                const shadowX = (mouseX / rect.width) * -maxOffset;
+                const shadowY = (mouseY / rect.height) * -maxOffset;
+
+                // Apply dynamic text shadow with reduced blur
+                grandeeLeeText.style.textShadow = `${shadowX}px ${shadowY}px 7px rgba(0, 0, 0, 0.3)`;
+            });
+
+            // Reset shadow when mouse leaves the section
+            homeSection.addEventListener('mouseleave', () => {
+                grandeeLeeText.style.textShadow = '2px 2px 7px rgba(0, 0, 0, 0.3)'; // Default shadow
             });
         });
     </script>
