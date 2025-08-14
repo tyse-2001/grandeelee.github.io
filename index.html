@@ -371,10 +371,12 @@
                 body.classList.add('dark');
                 lightIcon.classList.add('hidden');
                 darkIcon.classList.remove('hidden');
+                shadowColor = 'rgba(255, 255, 255, 0.5)'; // Dark mode shadow color
             } else {
                 body.classList.remove('dark');
                 lightIcon.classList.remove('hidden');
                 darkIcon.classList.add('hidden');
+                shadowColor = 'rgba(0, 0, 0, 0.3)'; // Light mode shadow color
             }
         }
 
@@ -422,12 +424,12 @@
                 const shadowY = (mouseY / rect.height) * -maxOffset;
 
                 // Apply dynamic text shadow with reduced blur
-                grandeeLeeText.style.textShadow = `${shadowX}px ${shadowY}px 7px rgba(0, 0, 0, 0.3)`;
+                grandeeLeeText.style.textShadow = `${shadowX}px ${shadowY}px 7px ${shadowColor}`;
             });
 
             // Reset shadow when mouse leaves the section
             homeSection.addEventListener('mouseleave', () => {
-                grandeeLeeText.style.textShadow = '2px 2px 7px rgba(0, 0, 0, 0.3)'; // Default shadow
+                grandeeLeeText.style.textShadow = `2px 2px 7px ${shadowColor}`; // Default shadow
             });
         });
     </script>
