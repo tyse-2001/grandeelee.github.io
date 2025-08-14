@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" style="scroll-behavior: smooth;">
+
 <head>
     <!-- changes -->
     <meta charset="UTF-8">
@@ -10,19 +11,26 @@
     <!-- Google Fonts - Inter for clean typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link href="custom.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
         /* Custom styles for the body font and fade-in animation */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f9fafb; /* bg-gray-50 from Tailwind palette */
+            background-color: #f9fafb;
+            /* bg-gray-50 from Tailwind palette */
         }
+
         /* Styles for the fade-in animation, initially hidden and slightly translated */
         .fade-in {
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 1s ease-in-out, transform 0.7s ease-in-out;
         }
+
         /* Class added by JavaScript when element is visible, makes it opaque and moves it to original position */
         .fade-in.is-visible {
             opacity: 1;
@@ -33,11 +41,14 @@
         .floating-text {
             /* Initially give a subtle shadow and enable 3D transforms */
             text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-            transition: text-shadow 0.1s linear; /* Smooth transition for shadow */
-            will-change: text-shadow; /* Optimize performance for shadow changes */
+            transition: text-shadow 0.1s linear;
+            /* Smooth transition for shadow */
+            will-change: text-shadow;
+            /* Optimize performance for shadow changes */
         }
     </style>
 </head>
+
 <body class="antialiased">
 
     <!-- Header Section: Fixed at the top, becomes solid on scroll -->
@@ -48,8 +59,8 @@
                 <div class="flex-shrink-0">
                     <a href="#home" class="text-2xl font-bold text-gray-900">GL</a>
                 </div>
-                <!-- Navigation Links: Hidden on small screens, visible on medium and larger -->
-                <div class="hidden md:block">
+                <!-- Navigation Links and Dark Mode Toggle: Hidden on small screens, visible on medium and larger -->
+                <div class="hidden md:flex md:items-center">
                     <div class="ml-10 flex items-baseline space-x-4">
                         <a href="#about" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
                         <a href="#research" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">Research</a>
@@ -57,36 +68,74 @@
                         <!-- Blog Link (commented out) -->
                         <!-- <a href="#blog" class="text-gray-600 hover:bg-gray-200 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">Blog</a> -->
                     </div>
+                    <!-- Dark Mode Toggle Button -->
+                    <button id="theme-toggle" class="ml-4 p-2 rounded-full hover:bg-gray-200 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <svg id="theme-toggle-light-icon" class="h-6 w-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                        </svg>
+                        <svg id="theme-toggle-dark-icon" class="hidden h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                        </svg>
+                    </button>
                 </div>
             </div>
         </nav>
     </header>
 
+
     <main>
         <!-- Home Section: Full screen hero section with name, title, and social links -->
-        <section id="home" class="min-h-screen flex items-center justify-center bg-gray-50 text-center px-4 sm:px-6 lg:px-8 fade-in">
+        <section id="home"
+            class="min-h-screen flex items-center justify-center bg-gray-50 text-center px-4 sm:px-6 lg:px-8 fade-in">
             <div class="max-w-4xl mx-auto">
                 <!-- 'Grandee Lee' text with white color and floating effect -->
-                <h1 id="grandee-lee-text" class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight floating-text">
+                <h1 id="grandee-lee-text"
+                    class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white tracking-tight floating-text">
                     Grandee Lee
                 </h1>
                 <!-- Social Media and CV links -->
                 <div class="mt-8 flex justify-center items-center space-x-4">
-                    <a href="mailto:grandeelee@suss.edu.sg" class="text-gray-500 hover:text-indigo-600 transition-colors" aria-label="Email">
+                    <a href="mailto:grandeelee@suss.edu.sg"
+                        class="text-gray-500 hover:text-indigo-600 transition-colors" aria-label="Email">
                         <!-- Email Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="4" width="20" height="16" rx="2" />
+                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                        </svg>
                     </a>
-                    <a href="https://linkedin.com/in/grandeelee" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-indigo-600 transition-colors" aria-label="LinkedIn">
+                    <a href="https://linkedin.com/in/grandeelee" target="_blank" rel="noopener noreferrer"
+                        class="text-gray-500 hover:text-indigo-600 transition-colors" aria-label="LinkedIn">
                         <!-- LinkedIn Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                            <rect x="2" y="9" width="4" height="12" />
+                            <circle cx="4" cy="4" r="2" />
+                        </svg>
                     </a>
-                    <a href="https://github.com/grandeelee" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-indigo-600 transition-colors" aria-label="GitHub">
-                         <!-- GitHub Icon -->
-                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                    <a href="https://github.com/grandeelee" target="_blank" rel="noopener noreferrer"
+                        class="text-gray-500 hover:text-indigo-600 transition-colors" aria-label="GitHub">
+                        <!-- GitHub Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                        </svg>
                     </a>
-                    <a href="https://www.suss.edu.sg/academics/schools-college/faculty-listing/detail/dr-grandee-lee" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all">
+                    <a href="https://www.suss.edu.sg/academics/schools-college/faculty-listing/detail/dr-grandee-lee"
+                        target="_blank" rel="noopener noreferrer"
+                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all">
                         <!-- CV Icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="mr-2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                            <line x1="16" y1="13" x2="8" y2="13" />
+                            <line x1="16" y1="17" x2="8" y2="17" />
+                            <polyline points="10 9 9 9 8 9" />
+                        </svg>
                         View CV
                     </a>
                 </div>
@@ -101,7 +150,9 @@
                     <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-12 text-center">About Me</h2>
                     <div class="bg-white p-8 rounded-lg shadow-sm max-w-3xl mx-auto">
                         <p class="text-lg text-gray-700 leading-relaxed text-center">
-                            My research interests include dialogue system evaluation and dialogue generation, the application of large language models in educational settings, machine learning for learning/teaching assessment, and multi-agent simulation.
+                            My research interests include dialogue system evaluation and dialogue generation, the
+                            application of large language models in educational settings, machine learning for
+                            learning/teaching assessment, and multi-agent simulation.
                         </p>
                     </div>
                 </div>
@@ -109,10 +160,11 @@
         </div>
 
         <div class="bg-gray-50">
-             <!-- Research Section: Populated dynamically by JavaScript -->
-             <section id="research" class="min-h-screen flex items-center py-20 px-4 sm:px-6 lg:px-8 fade-in">
+            <!-- Research Section: Populated dynamically by JavaScript -->
+            <section id="research" class="min-h-screen flex items-center py-20 px-4 sm:px-6 lg:px-8 fade-in">
                 <div class="w-full max-w-5xl mx-auto pt-12">
-                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-12 text-center">Selected Publications</h2>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-12 text-center">Selected Publications
+                    </h2>
                     <div id="research-list" class="space-y-4">
                         <!-- Research items will be injected here by JavaScript -->
                     </div>
@@ -140,8 +192,8 @@
                     <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-12 text-center">Recent Blog Posts</h2>
                     <div id="blog-list" class="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
                         -->
-                        <!-- Blog items will be injected here by JavaScript -->
-                        <!--
+        <!-- Blog items will be injected here by JavaScript -->
+        <!--
                     </div>
                 </div>
             </section>
@@ -154,14 +206,30 @@
         <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
             <!-- Social Media Icons in the footer -->
             <div class="flex justify-center space-x-6 mb-4">
-                <a href="mailto:grandeelee@suss.edu.sg" class="text-gray-400 hover:text-white transition-colors" aria-label="Email">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                <a href="mailto:grandeelee@suss.edu.sg" class="text-gray-400 hover:text-white transition-colors"
+                    aria-label="Email">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="4" width="20" height="16" rx="2" />
+                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                    </svg>
                 </a>
-                <a href="https://linkedin.com/in/grandeelee" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors" aria-label="LinkedIn">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+                <a href="https://linkedin.com/in/grandeelee" target="_blank" rel="noopener noreferrer"
+                    class="text-gray-400 hover:text-white transition-colors" aria-label="LinkedIn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                        <rect x="2" y="9" width="4" height="12" />
+                        <circle cx="4" cy="4" r="2" />
+                    </svg>
                 </a>
-                <a href="https://github.com/grandeelee" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors" aria-label="GitHub">
-                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                <a href="https://github.com/grandeelee" target="_blank" rel="noopener noreferrer"
+                    class="text-gray-400 hover:text-white transition-colors" aria-label="GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                    </svg>
                 </a>
             </div>
             <p class="text-sm text-gray-400">&copy; 2025 Grandee Lee. All Rights Reserved.</p>
@@ -193,7 +261,7 @@
             { course: "T16502: AI, ChatGPT and Machine Translation", university: "Nanyang Technological University (M.A. in Translation and Interpretation)", role: "Part-time Lecturer", years: "2023 - Present", description: "A master's level course on the impact of AI, particularly models like ChatGPT, on machine translation." },
             { course: "EE2211: Introduction to Machine Learning", university: "National University of Singapore (ECE)", role: "Guest Lecturer / TA", years: "2020 - 2022", description: "Contributed to teaching introductory concepts of machine learning to engineering students." }
         ];
-        
+
         // Blog Posts (commented out)
         /*
         const blogPosts = [
@@ -259,7 +327,7 @@
             });
             */
         }
-        
+
         // Header scroll effect: Adds background and shadow to the header when scrolled down.
         window.addEventListener('scroll', () => {
             const header = document.getElementById('header');
@@ -303,7 +371,7 @@
 
                 // Adjust shadow intensity and spread based on mouse position
                 // Max shadow offset, reduced for subtler movement
-                const maxOffset = 10; 
+                const maxOffset = 10;
 
                 const shadowX = (mouseX / rect.width) * -maxOffset;
                 const shadowY = (mouseY / rect.height) * -maxOffset;
@@ -319,4 +387,5 @@
         });
     </script>
 </body>
+
 </html>

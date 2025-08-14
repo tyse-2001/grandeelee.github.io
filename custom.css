@@ -1,0 +1,108 @@
+/* Dark mode specific styles */
+.dark {
+    /* Background colors */
+    --bg-body: #111827;
+    /* Tailwind's gray-900 */
+    --bg-section-light: #1f2937;
+    /* Tailwind's gray-800 */
+    --bg-section-dark: #111827;
+    /* Tailwind's gray-900 */
+    --bg-card: #374151;
+    /* Tailwind's gray-700 */
+
+    /* Text colors */
+    --text-primary: #f9fafb;
+    /* Tailwind's gray-50 */
+    --text-secondary: #d1d5db;
+    /* Tailwind's gray-300 */
+    --text-card-secondary: #e5e7eb;
+    /* Tailwind's gray-200 */
+    --text-accent: #818cf8;
+    /* Tailwind's indigo-400 */
+}
+
+.dark body {
+    background-color: var(--bg-body);
+}
+
+.dark .bg-gray-50 {
+    background-color: var(--bg-section-light);
+}
+
+.dark .bg-white {
+    background-color: var(--bg-section-dark);
+}
+
+.dark .text-gray-900,
+.dark .text-gray-800 {
+    color: var(--text-primary);
+}
+
+.dark .text-gray-600,
+.dark .text-gray-500,
+.dark .text-gray-400 {
+    color: var(--text-secondary);
+}
+
+.dark .bg-gray-800 {
+    background-color: var(--bg-section-light);
+}
+
+.dark .bg-gray-200 {
+    background-color: var(--bg-section-light);
+}
+
+.dark .text-white {
+    color: var(--text-primary);
+}
+
+.dark .hover\:bg-gray-200:hover {
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.dark .shadow-sm {
+    box-shadow: 0 1px 2px 0 rgba(255, 255, 255, 0.05);
+}
+
+.dark .hover\:shadow-lg:hover {
+    box-shadow: 0 10px 15px -3px rgba(255, 255, 255, 0.1), 0 4px 6px -2px rgba(255, 255, 255, 0.05);
+}
+
+.dark .bg-indigo-600 {
+    background-color: var(--text-accent);
+}
+
+.dark .text-indigo-600 {
+    color: var(--text-accent);
+}
+
+.dark .hover\:text-indigo-600:hover {
+    color: var(--text-accent);
+}
+
+.dark .hover\:bg-indigo-700:hover {
+    background-color: var(--text-accent);
+}
+
+.dark .focus\:ring-indigo-500:focus {
+    --tw-ring-color: var(--text-accent);
+}
+
+.dark .text-gray-700 {
+    color: var(--text-card-secondary);
+}
+
+.dark .border-gray-200 {
+    border-color: #4b5563;
+    /* Tailwind's gray-600 */
+}
+
+.dark .bg-white\/80 {
+    background-color: rgba(31, 41, 55, 0.8);
+    /* a bit of transparency for the dark header */
+}
+
+.dark .shadow-md {
+    box-shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.1), 0 2px 4px -1px rgba(255, 255, 255, 0.06);
+}
